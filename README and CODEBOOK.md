@@ -53,9 +53,13 @@ Project for the Coursera class
 		Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
 		These signals were used to estimate variables of the feature vector for each pattern:  '-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
 
-	These are the final variables:
+	These are the final variables. The units are specified below. All values were normalized to [-1,1].
 	
-	tBodyAcc.mean...X
+	All variable names containing "Acc." are accelaration signals measured in standard gravity units, "g". 
+	If the variable contains "Body", the value was obtained by substracting gravity from the total acceleration.
+	All variable names containing "Gyro" measure angular velocity vectors and 	
+	
+	tBodyAcc.mean...X      
 	tBodyAcc.mean...Y
 	tBodyAcc.mean...Z
 	tGravityAcc.mean...X
