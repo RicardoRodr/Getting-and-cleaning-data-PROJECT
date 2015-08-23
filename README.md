@@ -1,19 +1,21 @@
 Getting-and-cleaning-data-PROJECT
 Project for the Coursera class
- My script does the following:
- 	Assuming all the txt files are located in the working directory, reads them.
-	 Creates auxiliary id variables for all tables, useful for identifying unique rows and being able to tell apart the data that came from the "train" and "test" datasets. This was not required, but was included anyway.
-	 Merges the "train" and "test" datasets with the tables that contain information about the Activity and Subject. corresponding to each of the 561-variables long measurement vector.
-	 Merges "train" and "test" to create a large unifying table.
-	 Creates a unique id for each row in this consolidated table.
-	 Creates labels for the "Activity" variable according to the activity_labels.txt file, to make it more readable.
-	 Names the variables corresponding to the names specified in features.txt
-	 Renames the previous variable names to be more in line with accepted standards (no spaces in variable names, no repeated variable names...)
-	 Extracts from the consolidated table the variables corresponding to critical identifiers(ids, activity, subject,) plus all the variables that record the mean and standard deviation from the sensors' measurements.
-	 Summarizes the previously extracted data to report the averages by activity and subject. This is because some combinations of subjects-activities happened more than once.
-	 With this we get a 180 rows table summarizing the data obtained for the 6 activities and 30 subjects in the experiments.
-	 The table is stored as "test" and printed on "output.txt".
-	 Deletes some redundant data to free up space on memory
+  
+   My script does the following:
+ 	 
+ 	 1-Assuming all the txt files are located in the working directory, reads them.
+	 2-Creates auxiliary id variables for all tables, useful for identifying unique rows and being able to tell apart the data that came from the "train" and "test" datasets. This was not required, but was included anyway.
+	 3-Merges the "train" and "test" datasets with the tables that contain information about the Activity and Subject. corresponding to each of the 561-variables long measurement vector.
+	 4-Merges "train" and "test" to create a large unifying table.
+	 5-Creates a unique id for each row in this consolidated table.
+	 6-Creates labels for the "Activity" variable according to the activity_labels.txt file, to make it more readable.
+	 7-Names the variables corresponding to the names specified in features.txt
+	 8-Renames the previous variable names to be more in line with accepted standards (no spaces in variable names, no repeated variable names...)
+	 9-Extracts from the consolidated table the variables corresponding to critical identifiers(ids, activity, subject,) plus all the variables that record the mean and standard deviation from the sensors' measurements.
+	 10-Summarizes the previously extracted data to report the averages by activity and subject. This is because some combinations of subjects-activities happened more than once.
+	 11-With this we get a 180 rows table summarizing the data obtained for the 6 activities and 30 subjects in the experiments.
+	 12-The table is stored as "test" and printed on "output.txt".
+	 13-Deletes some redundant data to free up space on memory
 
 	 The remaining data frames in memory in R are:
 
