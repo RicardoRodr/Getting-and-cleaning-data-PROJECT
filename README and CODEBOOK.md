@@ -56,8 +56,9 @@ Project for the Coursera class
 	These are the final variables. The units are specified below. All values were normalized to [-1,1].
 	
 	All variable names containing "Acc." are accelaration signals measured in standard gravity units, "g". 
-	If the variable contains "Body", the value was obtained by substracting gravity from the total acceleration.
-	All variable names containing "Gyro" measure angular velocity vectors and 	
+	If the variable contains "Body", the value was obtained by substracting gravity from the total acceleration, to obtain body acceleration.
+	All variables containing "Jerk" measure the derivative of Acceleration, in g/s.
+	All variable names containing "Gyro" measure angular velocity vectors and are measured in rads/sec.	
 	
 	tBodyAcc.mean...X      
 	tBodyAcc.mean...Y
