@@ -1,37 +1,92 @@
-## These functions store a matrix and its inverse in a special list. For each introduced matrix, the inverse is calculated once and only once,
-## and every succesive time the user asks to calculate the inverse matrix, the functions merely need to recall the cached inverse matrix instead
-## of having to calculate it again.
+#My script does the following:
+# Assuming all the txt files are located in the workind directory, reads them.
+# Creates auxiliary id variables for all tables, useful for identifying unique rows and being able to tell apart the data that came form the "train" and "test" datasets. This was not required, but was included anyway.
+# Merges the "train" and "test" datasets with the tables that contain information about the Activity and Subject corresponding to each of the 561-variables long measurement vector.
+# Merges "train" and "test" to create a large unifying table.
+# Creates a unique id for each row in the consolidated table
+# Creates labels for the "Activity" variable according to the specifications txt file, to make it more readable
+# Names the variables corresponding to the names specified in features.txt
+# Renames the previous variable names to be more in line with accepted standards (no spaces in variable names, no repeated variable names...)
+# Extracts from the consolidated table the variables corresponding to critical identifiers(ids, activity, subject,) plus all the variables that record the mean and standard deviation from the sensors' measurements.
+# Summarizes the previously extracted data to report the averages by activity and subject. This is because some combinations of subjects-activities happened more than once.
+# With this we get a 180 rows table summarizing the data obtained for the 6 activities and 30 subjects in the experiments.
+# The table is stored as "test" and stored on "output.txt".
 
-## Takes a matrix as an argument and stores a list of functions to be computed with it, that will allow to cache the inverse of the argument.
+project <-function(){
+#Loads the additional libraries we will need
+library(tidyr)
+library(dplyr)
 
-makeCacheMatrix <- function(x = matrix()) {
-    inv <- NULL                                     ##sets "inv", the inverse of the matrix that will be stored later, to NULL since we are preparing the special vector for a matrix which inverse hasn't been calculated yet.
-    set <- function(y) {                            ##"set" is called when we are changing the matrix, we need to re-set the matrix itself and set the inverse to NULL since it's not yet been calculated
-        x <<- y
-        inv <<- NULL
-    }
-    get <- function() x                             ## returns simply "x", the matrix that is processd currently inside of "makeCacheMatrix"
-    setInverse <- function(inverse) inv <<- inverse ## sets the inverse "inv" used in our special vector to the value given as an argument. This function is called in CacheSolve (where we actually calculate the inverse of the matrix)
-    getInverse <- function() inv                    ## returns the inverse as used currently in the "special vector", can be NULL if it hasn't been calculated yet or the actual inverse of the matrix if it was changed with "SetInverse"
-    list(set= set, get = get,
-         setInverse = setInverse,
-         getInverse = getInverse)                   ## defines the "special vector" in which we will place the computed functions for every matrix introduced as an argument of "makeCacheMatrix".
-}
+#Reads both the trainind and test data
+data_train<-read.table("X_train.txt",header=FALSE)
+data_test<-read.table("X_test.txt",header=FALSE)
 
+#Reads the subjects corresponding to each row of data from "training" and "test", that is, the subject under whom the sensors recorded each vector.
+subjecttrain<-read.table("subject_train.txt",header=FALSE)
+subjecttest<-read.table("subject_test.txt",header=FALSE)
 
-## takes a list of functions computed in makeCacheMatrix and returns and caches the inverse of the matrix used in the list (if it has not yet been calculated), otherwise, returns the cached inverse
+#Reads the activities correspondint to each row of data captured from the sensors in both "train" and "test"
+activities_train<-read.table("y_train.txt",header=FALSE)
+activities_test<-read.table("y_test.txt",header=FALSE)
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-    inverse <- x$getInverse()                       ## checks whether the inverse in the list is different to NULL.
-    if(!is.null(inverse)){                          ## if the inverse in the list is not NULL, it returns that inverse and a message saying that the inverse wasn't calculated because it was already cached.
-        print("getting cached data")                
-        return(inverse)
-    }
-    else{                                           ## if there is no matrix inverse in the list's calculated functions, we need to calculate and cache it.
-        matrix <- x$get()                           ## "matrix" is the stored matrix in the list originally
-        inverse <- solve(matrix, ...)               ## calculate the inverse of the matrix and store it as "inverse"
-        x$setInverse(inverse)                       ## insert this inverse matrix in the list or "special vector"
-        inverse                                     ## returns the computed inverse matrix
-    }
+#Creates an indicator variable to identify each record as "Train" or "Test" in case it is needed after the merge
+data_test<-mutate(data_test, type="Test")
+data_train<-mutate(data_train, type="Train")
+
+#Creates an id variable for all tables in order to later merge the data about Activity and Participant using the id as a key (as in an SQL query)
+data_test<-mutate(data_test,id=seq(1:nrow(data_test)))
+data_train<-mutate(data_train,id=seq(1:nrow(data_train)))
+
+subjecttest<-mutate(subjecttest,id=seq(1:nrow(subjecttest)))
+subjecttrain<-mutate(subjecttrain,id=seq(1:nrow(subjecttrain)))
+
+activities_test<-mutate(activities_test,id=seq(1:nrow(activities_test)))
+activities_train<-mutate(activities_train,id=seq(1:nrow(activities_train)))
+
+#Renames the variables that indicate Activity and Subject
+names(activities_test)<-c("activity","id")
+names(activities_train)<-c("activity","id")
+names(subjecttest)<-c("subject","id")
+names(subjecttrain)<-c("subject","id")
+
+#Merges the tables that indicate Activity and Subject with the 561-variables dataset itself
+data_test=merge(data_test,activities_test,by.x="id",by.y="id",all=TRUE)
+data_train=merge(data_train,activities_train,by.x="id",by.y="id",all=TRUE)
+
+data_test=merge(data_test,subjecttest,by.x="id",by.y="id",all=TRUE)
+data_train=merge(data_train,subjecttrain,by.x="id",by.y="id",all=TRUE)
+
+merged_data<-merge(data_test,data_train,all=TRUE)
+merged_data<-mutate(merged_data,id_unique=seq(1:nrow(merged_data)))
+
+#Recodes the Activity variable so it can be easily interpreted without looking at a codebook
+merged_data$activity[merged_data$activity==1]<-"WALKING"
+merged_data$activity[merged_data$activity==2]<-"WALKING_UPSTAIRS"
+merged_data$activity[merged_data$activity==3]<-"WALKING_DOWNSTAIRS"
+merged_data$activity[merged_data$activity==4]<-"SITTING"
+merged_data$activity[merged_data$activity==5]<-"STANDING"
+merged_data$activity[merged_data$activity==6]<-"LAYING"
+
+#reads the vector of variable names from the file features.txt
+names<-read.table("features.txt",header=FALSE)
+names2<-as.vector(names$V2)
+
+#Renames the variables in our merged dataset to the names stated in feature.txt
+colnames(merged_data)<-c("id",names2,"type","activity","subject","id_unique")
+
+#Adjusts the datanames so they are unique
+colnames(merged_data)<-make.names(colnames(merged_data),unique=TRUE)
+
+#Extracts only the critical identifying variables plus those referring to means and standard deviations
+merged_data_mean_std<-select(merged_data, contains("mean"),contains("Mean"),contains("std"),contains("id"),contains("activity"),contains("subject"),contains("type"))
+
+#Creates the final summary table with the means of all the variables grouped by activity and subject
+test<-merged_data_mean_std %>% group_by(activity,subject) %>% summarise_each (funs(mean),contains("mean"),contains("Mean"),contains("std"))
+
+#Exports the previous result to a text file
+write.table(test,file="output.txt",row.names=FALSE)
+
+#Deletes some of the redundant data to free up memory in the computer
+#rm(data_test,data_train,subjecttest,subjecttrain,activities_test,activities_train)
+
 }
