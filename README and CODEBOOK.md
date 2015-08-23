@@ -44,7 +44,7 @@ Project for the Coursera class
 	 subject: 1:30 Number of subject who performed the activity measured by the sensors.
 
  	 The following variables, shown in order, are the averages, for each activity-subject combination, of the means and standard deviations of the technical variables measured by the sensors and described by the original author in features_info.txt
-	 The only difference with the original authors' variable names is the fact that spaces have been replaced by "."
+	 The only difference with the original authors' variable names is the fact that spaces have been replaced by ".", and parentheses have been removed.
 	 
 	 A transcription of the description from features_info.txt follows:
 	 
