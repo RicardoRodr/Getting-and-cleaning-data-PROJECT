@@ -11,6 +11,7 @@
 # Summarizes the previously extracted data to report the averages by activity and subject. This is because some combinations of subjects-activities happened more than once.
 # With this we get a 180 rows table summarizing the data obtained for the 6 activities and 30 subjects in the experiments.
 # The table is stored as "test" and stored on "output.txt".
+# Deletes some redundant data to free up space on memory
 
 project <-function(){
 #Loads the additional libraries we will need
@@ -87,6 +88,6 @@ test<-merged_data_mean_std %>% group_by(activity,subject) %>% summarise_each (fu
 write.table(test,file="output.txt",row.names=FALSE)
 
 #Deletes some of the redundant data to free up memory in the computer
-#rm(data_test,data_train,subjecttest,subjecttrain,activities_test,activities_train)
+rm(data_test,data_train,subjecttest,subjecttrain,activities_test,activities_train)
 
 }
