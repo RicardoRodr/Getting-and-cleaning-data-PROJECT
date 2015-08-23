@@ -1,6 +1,6 @@
 # Getting-and-cleaning-data-PROJECT
 Project for the Coursera class
-#My script does the following:
+# My script does the following:
 # Assuming all the txt files are located in the workind directory, reads them.
 # Creates auxiliary id variables for all tables, useful for identifying unique rows and being able to tell apart the data that came form the "train" and "test" datasets. This was not required, but was included anyway.
 # Merges the "train" and "test" datasets with the tables that contain information about the Activity and Subject corresponding to each of the 561-variables long measurement vector.
@@ -18,8 +18,8 @@ Project for the Coursera class
 # The remaining data frames in memory are:
 
 # merged_data: contains 10299 rows with all the variables measured by the sensors (561) and the corresponding activity and subject of each measurement.
-# merged_data_mean_std: summarized version of the above table containing only the variables referring to means and standard deviations from the full set of 561 variables.
-# test: contains 180 rows summarizing the means, for every activity (6) and subject (30), of the variables from the table above.
+# merged_data_mean_std: summarized version of the above table containing only the variables referring to means and standard deviations from the full set of 561 variables (86 out of 561 variables remain).
+# test: contains 180 rows summarizing the means, for every activity (6) and subject (30), of the variables from the table above. The two id variables are lost as this is a summary and not an enumeration of all the measurements.
 # names: contains the original (unedited) names of the 561 measurement variables.
 
 # Description of the text files:
