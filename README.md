@@ -1,7 +1,7 @@
 Getting-and-cleaning-data-PROJECT
 Project for the Coursera class
-  
-   My script does the following:
+ 
+ 	 This is what the script does:
  	 
  	 1-Assuming all the txt files are located in the working directory, reads them.
 	 2-Creates auxiliary id variables for all tables, useful for identifying unique rows and being able to tell apart the data that came from the "train" and "test" datasets. This was not required, but was included anyway.
