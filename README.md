@@ -16,8 +16,11 @@ Project for the Coursera class
 # Deletes some redundant data to free up space on memory
 
 # The remaining data frames in memory are:
-# test: contains 180 rows summarizing the means, for every activity (6) and subject (30), of the standard deviations and means measured by the sensors.
-# merged_data: contains 10299 rows with all the variables measured by the sensors (561)
+
+# merged_data: contains 10299 rows with all the variables measured by the sensors (561) and the corresponding activity and subject of each measurement.
+# merged_data_mean_std: summarized version of the above table containing only the variables referring to means and standard deviations from the full set of 561 variables.
+# test: contains 180 rows summarizing the means, for every activity (6) and subject (30), of the variables from the table above.
+# names: contains the original (unedited) names of the 561 measurement variables.
 
 # Description of the text files:
 
