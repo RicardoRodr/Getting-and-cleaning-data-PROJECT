@@ -26,7 +26,8 @@ Project for the Coursera class
 	 names: contains the original (unedited) names of the 561 measurement variables.
 
 	 Description of the text files:
-
+	 
+	 ASSUMPTION: In order for the script to run well all these files must be in the root of the working directory. Some files have been moved from their subdirectories to the root to inmprove clarity.
 	 activity_labels.txt: Codebook for the activities performed by each subject (walking, walking downstairs, etc)
 	 features.txt: Cobebook for all the measurements made by the sensor.
 	 features_info.txt: Technical explanation for the meaning of the measurements made by the sensor.
